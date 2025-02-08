@@ -9,7 +9,7 @@
 >    - 浙江大学-大模型原理与技术 :
 >      - [【浙江大学-大模型原理与技术】](https://www.bilibili.com/video/BV1PB6XYFET2/?vd_source=471837a8669f91a06fea91667e4334ae)
 >      - [大模型基础](https://github.com/ZJU-LLMs/Foundations-of-LLMs)
->    - [安德烈·卡帕西最新AI普及课：深入探索像ChatGPT这样的大语言模型 Andrej Karpathy](https://www.bilibili.com/video/BV16cNEeXEer)
+>    - [安德烈·卡帕西最新AI普及课：深入探索像ChatGPT这样的大语言模型 Andrej Karpathy](https://www.bilibili.com/video/BV1WnNHeqEFK)
 >    - [记录大模型应用过程遇到的相关问题及解决方法](https://github.com/wyf3/llm_related)
 > 2. [科普 深度学习训练和推理有何不同？](https://zhuanlan.zhihu.com/p/66705645) TODO:
 > 3. [机器学习和深度学习区别的简要概述](https://zhuanlan.zhihu.com/p/69776750)
@@ -34,6 +34,7 @@
 >      - 2080ti 22G 魔改版本 3k
 >      - 192GB 统一内存的 M2 Ultra
 >      - [大模型解决不了英伟达的难题](https://www.bilibili.com/video/av1954475860)
+> 10. TODO: [**当我们发现毕生追求的知识在AI面前毫无价值时，如何重建存在的意义？**](https://www.zhihu.com/question/11103435299)
 
 NOTE: ai 的相关放到 WSL2 中进行.
 
