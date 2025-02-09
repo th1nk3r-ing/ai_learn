@@ -43,6 +43,7 @@ NOTE: ai 的相关放到 WSL2 中进行.
 > - 大模型统计 :
 >   - [中国大模型列表 Awesome LLMs In China](https://github.com/wgwang/awesome-LLMs-In-China)
 >   - <https://artificialanalysis.ai/> : Quality vs. Price --> 大模型质量价格统计
+>   - [lmarena.ai](https://lmarena.ai/) : llm 排行榜(人工)
 > - [有哪些开源的 AI 项目？](https://www.zhihu.com/question/65355806/answer/3154351532)
 > - [谷歌15个人工智能开源免费项目推荐，开发者们又可以折腾了](https://zhuanlan.zhihu.com/p/92959056)
 > - [大模型推理框架概述](https://juejin.cn/post/7286676030965317668)
@@ -59,6 +60,9 @@ NOTE: ai 的相关放到 WSL2 中进行.
 > - [动画 GLSL 超分](https://github.com/bloc97/Anime4K/tree/master)
 > - [极简部署AI音视频翻译配音工具 -- github-KrillinAI](https://github.com/krillinai/KrillinAI)
 
+- 国外的 ai 云平台
+  - [Hyperbolic](https://hyperbolic.xyz/)
+  - [together-AI](https://together.ai/)
 - [~~AoE (AI on Edge)~~](https://github.com/didi/AoE) : 滴滴的平台, 已停止维护
 - [Mace (Mobile AI Compute Engine)](https://github.com/XiaoMi/mace) : 小米, 仍在维护(2024.3)
   - > 是一个专为移动端异构计算平台(支持Android, iOS, Linux, Windows)优化的神经网络计算框架。
@@ -152,8 +156,8 @@ TODO:
 | **GPT-4o mini**    | 2024年7月18日      | 更小巧的版本，适用于快速、轻量级任务，成本更低。             | $0.15                           | $0.60                            | 75                     |
 | **o1**             | 2024年9月12日      | 专为复杂推理任务设计，适用于数学、科学和编程等领域。         | $15.00                          | $60.00                           | 90                     |
 | **o1 mini**        | 2024年9月12日      | o1 的小型版本，提供更低的成本和延迟，适用于一般推理任务。     | $5.00                           | $15.00                           | 80                     |
-| **o3-mini**        | 2025年1月31日      | 最新的推理模型，提供更高的性价比，首次向免费用户开放。       | $1.10                           | $4.40                            | 95                     |
 | **DeepSeek-R1**    | 2025年1月20日      | 开源的推理模型，性能与 OpenAI 的 o1 相当，定价更为低廉。     | ¥1.00（约 $0.14）               | ¥16.00（约 $2.19）               | 90                     |
+| **o3-mini**        | 2025年1月31日      | 最新的推理模型，提供更高的性价比，首次向免费用户开放。       | $1.10                           | $4.40                            | 95                     |
 
 请注意，以上推理能力评分基于公开的基准测试结果和专家评估，可能会随着模型的进一步优化而变化。
 
