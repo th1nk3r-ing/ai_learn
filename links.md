@@ -4,7 +4,7 @@
 >
 > 1. 学习/大模型训练 :
 >    - [minimind --> 「大模型」3 小时完全从 0 训练 26M 的小参数 GPT](https://github.com/jingyaogong/minimind)
->    - [动手学深度学习 Dive into Deep Learning，D2L.a -- github](https://github.com/d2l-ai/d2l-zh)
+>    - [动手学深度学习 Dive into Deep Learning，D2L.a -- github](https://github.com/d2l-ai/d2l-zh) : 书 + 代码
 >    - [LLMs-Zero-to-Hero](https://github.com/bbruceyuan/LLMs-Zero-to-Hero)
 >    - 浙江大学-大模型原理与技术 :
 >      - [【浙江大学-大模型原理与技术】](https://www.bilibili.com/video/BV1PB6XYFET2/?vd_source=471837a8669f91a06fea91667e4334ae)
@@ -162,7 +162,3 @@ TODO:
 请注意，以上推理能力评分基于公开的基准测试结果和专家评估，可能会随着模型的进一步优化而变化。
 
 对于具体的收费标准和最新的定价信息，建议访问 OpenAI 和 DeepSeek 官方网站或联系相关客户支持以获取最准确的信息。
-
-- [thetimes.co.uk](https://www.thetimes.co.uk/article/deepseek-is-here-should-you-use-it-in-your-business-mg7m7csff?utm_source=chatgpt.com)
-- [theguardian.com](https://www.theguardian.com/technology/2025/feb/01/ai-deepseek-cheap-china-google-apple?utm_source=chatgpt.com)
-- [theverge.com](https://www.theverge.com/ai-artificial-intelligence/598846/deepseek-big-tech-ai-industry-nvidia-impac?utm_source=chatgpt.com)
