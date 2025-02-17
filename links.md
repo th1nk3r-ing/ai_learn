@@ -9,8 +9,10 @@
 >    - 浙江大学-大模型原理与技术 :
 >      - [【浙江大学-大模型原理与技术】](https://www.bilibili.com/video/BV1PB6XYFET2/?vd_source=471837a8669f91a06fea91667e4334ae)
 >      - [大模型基础](https://github.com/ZJU-LLMs/Foundations-of-LLMs)
->    - [安德烈·卡帕西最新AI普及课：深入探索像ChatGPT这样的大语言模型 Andrej Karpathy](https://www.bilibili.com/video/BV1WnNHeqEFK)
+>    - [**安德烈·卡帕西(Andrej Karpathy) AI 普及课：深入探索像ChatGPT这样的大语言模型**](https://www.bilibili.com/video/BV1WnNHeqEFK)
 >    - [记录大模型应用过程遇到的相关问题及解决方法](https://github.com/wyf3/llm_related)
+>    - [**3B1B --> 深度学习之神经网络的结构**](https://space.bilibili.com/88461692/channel/seriesdetail?sid=1528929)
+>      - [【中文配音】深度学习（3Blue1Brown）](https://www.bilibili.com/video/BV1szpFedEV2)
 > 2. [科普 深度学习训练和推理有何不同？](https://zhuanlan.zhihu.com/p/66705645) TODO:
 > 3. [机器学习和深度学习区别的简要概述](https://zhuanlan.zhihu.com/p/69776750)
 > 4. [人工智能的发展历史](https://winterwindwang.github.io/2021/04/27/dl_story.html)  TODO:
