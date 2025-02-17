@@ -61,6 +61,7 @@ NOTE: ai 的相关放到 WSL2 中进行.
 > - <https://github.com/Anjok07/ultimatevocalremovergui>
 > - [动画 GLSL 超分](https://github.com/bloc97/Anime4K/tree/master)
 > - [极简部署AI音视频翻译配音工具 -- github-KrillinAI](https://github.com/krillinai/KrillinAI)
+> - [GloVe: Global Vectors for Word Representation](https://nlp.stanford.edu/projects/glove/) : GloVe 是一种基于统计的词向量模型，旨在通过捕捉词语在大规模语料库中共现的统计信息来生成词的嵌入向量。
 
 - 国外的 ai 云平台
   - [Hyperbolic](https://hyperbolic.xyz/)
@@ -78,6 +79,7 @@ NOTE: ai 的相关放到 WSL2 中进行.
 - [TNN](https://github.com/Tencent/TNN) : 腾讯, 最后维护为 2023.9
   - > TNN: developed by Tencent Youtu Lab and Guangying Lab, a uniform deep learning inference framework for mobile、desktop and server.
 - [Ascend C算子编程语言](https://www.hiascend.com/ascend-c)
+- [魔塔社区](https://www.modelscope.cn/home)
 - 语义分割 :
   - SAM2 的 light 模型
 
