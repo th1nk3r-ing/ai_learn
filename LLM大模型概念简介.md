@@ -42,7 +42,7 @@
    - 模型的发布最少需要上述两者
 3. LLM Visualization : <https://bbycroft.net/llm>
 4. `GPT` (Generatively Pre trained Transformer) :
-   - 论文 : [**attention is all you need**](https://arxiv.org/pdf/1706.03762)
+   - 论文 : [**attention is all you need**](https://arxiv.org/pdf/1706.03762), 2017 By Google
    - TODO: 论文阅读工具...
    - [GPT2 - 2019](https://github.com/openai/gpt-2.git) :
      - > first time that a recognizably modern stack came together : 首次出现一个可被明确视为现代技术栈的组合
