@@ -33,7 +33,8 @@ jobs:
           cd ${GITHUB_WORKSPACE}
           echo "$(pwd)"
           # 执行 md 文档处理脚本(更新目录 + 部分语法转换)
-          curl -L -o updateRepoMdFileList.sh https://raw.githubusercontent.com/th1nk3r-ing/Linux_learn/refs/heads/main/code/updateRepoMdFileList.sh
+          # curl -L -o updateRepoMdFileList.sh https://raw.githubusercontent.com/th1nk3r-ing/Linux_learn/refs/heads/main/code/updateRepoMdFileList.sh
+          mv code/updateRepoMdFileList.sh ./
           /bin/bash updateRepoMdFileList.sh handleGithubMdSyntax
           git status
       - name: Setup Pages
