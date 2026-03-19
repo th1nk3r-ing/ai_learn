@@ -23,6 +23,7 @@ github-io 地址 : **<https://th1nk3r-ing.github.io/ai_learn/>**
 - [links.md](./links.md)
 - [LLM大模型概念简介.md](./LLM大模型概念简介.md)
 - [note_人工智能.md](./note_人工智能.md)
+- [RAG.md](./RAG.md)
 - [readme.md](./readme.md)
 
 <!-- TOC end -->
