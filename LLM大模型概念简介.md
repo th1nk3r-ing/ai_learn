@@ -185,3 +185,70 @@
   - context-window 资源的宝贵
 - [lmarena.ai](https://lmarena.ai/) : LLM 排行榜(人工)
 - `LMStudio` 本地运行模型
+
+
+## <font color=#009A000> 0x05 老黄的播客 </font>
+
+> [Jensen Huang: NVIDIA - The $4 Trillion Company \& the AI Revolution \| Lex Fridman Podcast](https://www.youtube.com/watch?v=vif8NQcjVf0)
+
+- 从单一 GPU 到机架的设计, 复杂性的扩散 :
+  - 计算 CPU/GPU
+  - 网络 : network/switch
+  - 负载均衡
+  - 供电/散热
+- TODO:
+  - HBM 供应链 ??
+  - token/W
+- 第一性原则 : 物理极限是什么, 当前阶段是哪个
+- Ai 算力和 extra Engerge 的利用 :
+  - UPS 缓冲 + 电网监测 + 实时调度 NVIDIA GPU 的 power profiles
+  - 外太空的能源利用 : 算力上天.
+    - 太空遥测数据的巨大数据量 <---> Ai 预处理再传回
+- 关于 Ai 训练的数据 :
+  - 已有高质量数据的枯竭
+  - 合成数据比例的上升
+- Nvidia install Base 定义的 CUDA :
+  - gamming 加速器, 太窄/太专
+  - 可编程 Pixel Shader
+  - FP32 支持 (Cg)
+  - CUDA of GeForce --> computer conmany
+    - 成本的提升, 第一个生存威胁的决策
+  - CUDA 的扩散, SDK 的新人性
+- 计算系统的分割 :
+  - 旧有计算系统 : 检索系统 --> 存储/仓库是大头
+  - Ai 系统 : 生成系统 --> 计算是大头 (更像一个 token 工厂)
+- 计算机视觉超过人类已经很久了.
+  - 放射科医生的处境
+- AGI 的两大组成
+  - 智力 (功能性的工具)
+  - 情感/情绪. ai 能判断情绪, 但无法真正感知它.
+    - 人和人的情绪是不同的, 但两个 ai 在相同 contex 下概率学上是相近的.
+- 遗忘的能力 :
+  > And part of it—part of the process—is forgetting. 其中一个重要的部分，其实是“遗忘”。 <br/>
+  > One of the most important attributes of AI learning, as you know, is systematic forgetting. You need to understand what to forget. You can’t memorize everything or retain all information indefinitely. 正如你所知道的，AI 学习中一个非常关键的特性就是“系统性的遗忘”（systematic forgetting）。你需要知道什么时候该忘记什么内容。你不可能记住所有东西，也不应该保留所有信息。 <br/>
+  > Instead, you should avoid carrying unnecessary information. One of the things I do very quickly is decompose the problem, reason about it, and distribute the cognitive load. When I say I “tell everybody,” what I’m really doing is sharing that burden as efficiently as possible. 相反，你应该避免背负不必要的信息。我通常会很快地把问题拆解开，对问题进行推理，并分担认知负担。当我说“我告诉所有人”的时候，本质上是在尽可能快地把这个负担分散出去。
+
+
+### <font color=#FF4500> ai 版本总结 </font>
+
+1. 计算架构：从单片 GPU 向机架级集成演进
+   - **复杂性扩散：** 算力设计重心已由微观芯片转向**机架级全栈集成**，涵盖 CPU/GPU 异构协同、高性能网络拓扑（Network/Switch）、动态负载均衡及热电管理系统。
+   - **第一性原理：** 需回归物理本质，审视 **HBM 供应链** 弹性与 $Token/W$ 能效比的极限，界定当前技术演进的宏观边界。
+2. 能源革新：智能电网调度与星际算力前瞻
+   - **能源深度协同：** 通过 **UPS 动态缓冲**与电网监测，实时调度 GPU 的 **Power Profiles**（功耗特性），实现算力负荷与能源供给的毫秒级解耦。
+   - **星载 AI 预处理：** 针对外太空遥测数据带宽瓶颈，采取“算力上天”策略，通过 **AI 边缘预处理**压缩冗余信息，解决跨星际通信的数据回传压力。
+3. 数据范式：从原生矿藏到合成进化
+   - **语料枯竭：** 互联网高质量人类原生数据的开采已接近物理极限，数据稀缺成为算力释放的主要阻碍。
+   - **合成数据（Synthetic Data）：** 行业正转向以高占比合成数据驱动模型训练，标志着 AI 演进进入自进化与逻辑闭环的新阶段。
+4. NVIDIA 战略路径：CUDA 的生态渗透与普适化
+   - **范式转移：** 从专用图形加速器转向通用计算（GPGPU）。通过可编程 **Pixel Shader** 与 **FP32 (Cg)** 支持，完成了从“窄众工具”向“计算基座”的跨越。
+   - **生态护城河：** 在 GeForce 系列强制推行 CUDA 是一次高成本的生存博弈，最终通过 **SDK 的易用性**与开发者社区的渗透，确立了无可撼动的计算标准。
+5. 系统重构：从“检索检索”向“Token 工厂”转型
+   - **传统计算系统：** 以**存储与 I/O** 为核心，本质是存量信息的检索、搬运与仓库式管理。
+   - **AI 生成系统：** 转向以**计算**为核心，系统职能演变为高效产出逻辑与信息的 **“Token 工厂”**，计算密度取代存储容量成为衡量标准。
+6. AGI 边界：功能性智力与感知模拟的差异
+   - **专业领域超验：** 计算机视觉（CV）在放射影像诊断等特定专业领域已长期超越人类表现。
+   - **智力与感知的解耦：** AGI 具备强大的功能性智力，但在情感层面仅停留于**逻辑判断**而非真实感知。
+   - **概率趋同性：** 人类情绪具有高度个体异构性，而 AI 在相同 Context（上下文）下的输出在概率学上具有高度趋同性。
+
+![ai 四个阶段](./image/LLM%20阶段.png)
