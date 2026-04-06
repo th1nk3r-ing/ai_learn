@@ -4,7 +4,7 @@
 
 - RAG (Retrieval-Augmented Generation, 即检索增强生成) : 知识库和 embding 模型 ?  deepWiki ?
 
-![rag](./rag.drawio.svg)
+![rag](./doc/rag.drawio.svg)
 
 | 特性 | RAG (检索增强) | Fine-tuning (微调) |
 | :--- | :--- | :--- |
