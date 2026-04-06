@@ -15,6 +15,7 @@ github-io 地址 : **<https://th1nk3r-ing.github.io/ai_learn/>**
 
 <!-- TOC start -->
 
+- [语音-Ai.md](./语音-Ai.md)
 - [名词释义.md](./名词释义.md)
 - [3b1b_DP.md](./3b1b_DP.md)
 - **doc** :
