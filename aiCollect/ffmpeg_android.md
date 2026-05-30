@@ -19,6 +19,7 @@
 ```
 --enable-mediacodec
   ├── --enable-jni
+  │     └── android (-landroid, <android/native_window.h>)
   ├── android (-landroid, <android/native_window.h>)
   ├── mediandk (-lmediandk, <media/NdkMediaFormat.h>)
   └── pthreads
@@ -29,6 +30,19 @@ android_camera indev (自动检测 camera2ndk)
   ├── mediandk
   └── pthreads
 ```
+
+### 1.3 `--enable-opengl` — 已删除的死选项
+
+> 该选项与 Android 无关，此处记录以厘清疑问。
+
+**设计目标:** 原为 `libavdevice/opengl_enc.c`（FFmpeg 7.1 前），一个将 raw video 渲染到 OpenGL 窗口的输出设备，类似 `ffmpeg -f opengl ...` 使用。它通过 SDL2（优先）或 GLX/WGL 创建 OpenGL 上下文并显示视频帧。
+
+**已被删除:** 该输出设备于 2024-02 弃用、2025-02 完全移除（commit `9283c5251f`）。当前 `--enable-opengl` 开启后不编译任何文件，`CONFIG_OPENGL` 宏已不在任何源文件中使用。
+
+**对 Android 端无意义:**
+- 原实现的 GL 上下文获取只有桌面路径：GLX（X11）、WGL（Windows）、SDL2（桌面 SDL），**没有 EGL**，**没有 ANativeWindow**。
+- configure 检测 `ES2/gl.h + -framework OpenGLES` 仅针对 iOS，NDK 环境下会检测失败并 `die("ERROR: opengl not found.")` 中断构建。
+- 即使通过，原代码也只绑定了桌面 GL 扩展（`GL_ARB_multitexture`, `GL_ARB_vertex_buffer_object` 等），Android GLES 路径不可用。
 
 ---
 
@@ -64,6 +78,42 @@ android_camera indev (自动检测 camera2ndk)
 | `av1_mediacodec` | `video/av01` |
 
 支持输入像素格式: `AV_PIX_FMT_MEDIACODEC`, `AV_PIX_FMT_YUV420P`, `AV_PIX_FMT_NV12`。
+
+### 2.3 公开 API (mediacodec.h)
+
+面向用户的 MediaCodec 解码 API，通过 `AVMediaCodecContext` 与 Surface 交互:
+
+```c
+// 分配/释放上下文
+AVMediaCodecContext *av_mediacodec_alloc_context(void);
+void av_mediacodec_default_free(AVCodecContext *avctx);
+
+// 初始化（传入 Java Surface）
+int av_mediacodec_default_init(AVCodecContext *avctx, AVMediaCodecContext *ctx, void *surface);
+
+// 解码输出 buffer 操作
+int av_mediacodec_release_buffer(AVMediaCodecBuffer *buffer, int render);      // 释放并渲染到 Surface
+int av_mediacodec_render_buffer_at_time(AVMediaCodecBuffer *buffer, int64_t time); // 指定时间渲染
+```
+
+**结构体:**
+```c
+typedef struct AVMediaCodecContext {
+    void *surface;  // Java android/view/Surface
+} AVMediaCodecContext;
+
+typedef struct MediaCodecBuffer AVMediaCodecBuffer;  // 不透明，存储在 frame->data[3]
+```
+
+### 2.4 重要编解码选项
+
+| 选项 | 适用 | 说明 |
+|------|------|------|
+| `ndk_codec` | 解码器/编码器 | -1=auto, 0=强制JNI, 1=强制NDK |
+| `delay_flush` | 解码器 | 1=延迟 flush 直到所有 HW buffer 返回 |
+| `operating_rate` | 解码器/编码器 | 目标码率（0=未指定） |
+| `ndk_async` | 编码器 | 1=启用 NDK MediaCodec 异步模式 |
+| `bitrate_mode` | 编码器 | cq/vbr/cbr/cbr_fd |
 
 ---
 
@@ -124,8 +174,21 @@ NDK 路径额外支持异步回调、编码器输入 Surface、EOS 信号。
 |------|-----------------|
 | `ff_mediacodec_sw_buffer_copy_yuv420_planar` | `COLOR_FormatYUV420Planar` (0x13) |
 | `ff_mediacodec_sw_buffer_copy_yuv420_semi_planar` | `COLOR_FormatYUV420SemiPlanar` (0x15) |
-| `..._packed_semi_planar` | TI 打包变体 |
-| `..._64x32Tile2m8ka` | Qualcomm 硬 tile NV12 |
+| `ff_mediacodec_sw_buffer_copy_yuv420_packed_semi_planar` | `COLOR_FormatYUV420PackedSemiPlanar` (通用) |
+| `ff_mediacodec_sw_buffer_copy_yuv420_packed_semi_planar_64x32Tile2m8ka` | `COLOR_QCOM_FormatYUV420PackedSemiPlanar64x32Tile2m8ka` (0x7fa30c03) |
+
+### 3.4 FFAMediaCodecList — 编解码器查询
+
+**文件:** `mediacodec_wrapper.h` / `mediacodec_wrapper.c`
+
+```c
+char *ff_AMediaCodecList_getCodecNameByType(const char *mime, int profile,
+                                             int encoder, void *log_ctx);
+```
+
+根据 MIME 类型和 profile 查询系统中可用的 MediaCodec 名称。用于:
+- 绕过有问题的厂商 decoder 实现
+- 获取 codec 名称进行 workaround（如 `OMX.amlogic.mpeg2.decoder.awesome` 的特殊处理）
 
 ---
 
@@ -149,6 +212,8 @@ ACameraManager → ACameraDevice → ACaptureSession
 
 ### 4.2 JNI 集成
 
+#### 4.2.1 公开 API (jni.h)
+
 ```c
 int av_jni_set_java_vm(void *vm, void *log_ctx);         // 设置 JavaVM
 void *av_jni_get_java_vm(void *log_ctx);
@@ -158,9 +223,48 @@ int av_jni_set_android_app_ctx(void *app_ctx, void *log_ctx);  // 设置 Applica
 void *av_jni_get_android_app_ctx(void);
 ```
 
+#### 4.2.2 内部 JNI 工具 (ffjni.c / ffjni.h)
+
+FFmpeg Android 代码的通用 JNI 工具库，被 MediaCodec、Surface、content:// 等多处依赖:
+
+| 函数 | 用途 |
+|------|------|
+| `ff_jni_get_env()` | 获取当前线程 JNIEnv，自动处理 Attach/Detach |
+| `ff_jni_jstring_to_utf_chars()` | jstring → UTF-8 |
+| `ff_jni_utf_chars_to_jstring()` | UTF-8 → jstring |
+| `ff_jni_exception_get_summary()` | 从 jthrowable 提取 "className: message" |
+| `ff_jni_exception_check()` | 检查并清除 JNI 异常 |
+| `ff_jni_init_jfields()` | 通过 FFJniField 映射表批量初始化 JNI 引用 |
+| `ff_jni_reset_jfields()` | 释放 JNI 引用 |
+
+**FFJniField 映射机制:** 用结构体描述要获取的 Java 类/方法/字段，通过偏移量写入目标结构体，实现 JNI 引用的类型安全批量初始化:
+
+```c
+struct FFJniField {
+    const char *name;       // "android/net/Uri"
+    const char *method;     // "parse"
+    const char *signature;  // "(Ljava/lang/String;)Landroid/net/Uri;"
+    enum FFJniFieldType type;
+    size_t offset;
+    int mandatory;
+};
+```
+
 ### 4.3 content:// 协议 (依赖 JNI)
 
-**编译: `--enable-jni`**。通过 JNI 解析 `content://` URI 为文件描述符 `fd`。
+**编译: `--enable-jni`**。通过 JNI 解析 `content://` URI 为文件描述符 fd:
+
+```
+content:// URI
+    ↓
+JNI: Uri.parse() → ContentResolver.openFileDescriptor()
+    ↓
+ParcelFileDescriptor.detachFd()  →  获取原始 fd
+    ↓
+FFmpeg 通过 fd 读写内容
+```
+
+**使用方式:** `ffmpeg -i content://com.example.app/file ...`
 
 ### 4.4 Android 15+ Binder 兼容
 
@@ -168,6 +272,22 @@ void *av_jni_get_android_app_ctx(void);
 // compat/android/binder.c
 // API >= 35: ABinderProcess_startThreadPool() 必须调用
 // 否则 MediaCodec NDK 无法正常工作
+```
+
+### 4.5 Surface 引用管理 (mediacodec_surface.c)
+
+**文件:** `libavcodec/mediacodec_surface.c` (78行)
+
+管理 Java Surface (GlobalRef) 和 ANativeWindow* 之间的引用:
+
+```c
+typedef struct FFANativeWindow {
+    void *surface;         // Java android/view/Surface (NewGlobalRef)
+    void *native_window;   // ANativeWindow* (acquired)
+} FFANativeWindow;
+
+FFANativeWindow *ff_mediacodec_surface_ref(void *surface, void *native_window, void *log_ctx);
+int ff_mediacodec_surface_unref(FFANativeWindow *window, void *log_ctx);
 ```
 
 ---
@@ -348,9 +468,12 @@ Vulkan texture / 后续 filter / encode
 | `libavcodec/mediacodecdec.c` | 各解码器注册 | 712 |
 | `libavcodec/mediacodec_sw_buffer.c` | 软件 YUV 复制 | 339 |
 | `libavcodec/mediacodec.c` | 公共 API | 148 |
-| `libavcodec/mediacodec_surface.c` | Surface/ANativeWindow 管理 | - |
-| `libavcodec/jni.c` | JNI API | 124 |
-| `libavcodec/ffjni.c` | 内部 JNI 辅助 | - |
+| `libavcodec/mediacodec_surface.c` | Surface/ANativeWindow 管理 | 78 |
+| `libavcodec/jni.c` | JNI API (公开) | 124 |
+| `libavcodec/ffjni.c` | JNI 工具函数 (内部) | 413 |
+| `libavcodec/ffjni.h` | JNI 工具头文件 | 146 |
+| `libavcodec/jni.h` | JNI API 头文件 | 68 |
 | `libavdevice/android_camera.c` | Camera 输入设备 | 874 |
 | `libavutil/hwcontext_mediacodec.c` | HWDeviceContext | 121 |
 | `compat/android/binder.c` | Android 15+ Binder 兼容 | 114 |
+| `compat/android/binder.h` | Binder 头文件 | 31 |
