@@ -21,6 +21,7 @@ github-io 地址 : **<https://th1nk3r-ing.github.io/ai_learn/>**
 - **aiCollect** :
   - [Android_MediaCodec_Changelog_API31_37.md](./aiCollect/Android_MediaCodec_Changelog_API31_37.md)
   - [Android17_MediaCodec_Updates.md](./aiCollect/Android17_MediaCodec_Updates.md)
+  - [ffmpeg_android.md](./aiCollect/ffmpeg_android.md)
   - [ffmpeg_version_change.md](./aiCollect/ffmpeg_version_change.md)
 - **doc** :
   - [Qualcomm_混合AI是AI的未来_white-paper_1.1.pdf](./doc/Qualcomm_混合AI是AI的未来_white-paper_1.1.pdf)
