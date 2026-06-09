@@ -24,6 +24,7 @@ github-io 地址 : **<https://th1nk3r-ing.github.io/ai_learn/>**
   - [ffmpeg_android.md](./aiCollect/ffmpeg_android.md)
   - [ffmpeg_libs.md](./aiCollect/ffmpeg_libs.md)
   - [ffmpeg_version_change.md](./aiCollect/ffmpeg_version_change.md)
+  - [github_software_list.md](./aiCollect/github_software_list.md)
 - **doc** :
   - [Qualcomm_混合AI是AI的未来_white-paper_1.1.pdf](./doc/Qualcomm_混合AI是AI的未来_white-paper_1.1.pdf)
   - [Qualcomm_通过NPU和易购计算开启终端侧生成式Ai.pdf](./doc/Qualcomm_通过NPU和易购计算开启终端侧生成式Ai.pdf)
