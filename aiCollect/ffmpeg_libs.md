@@ -239,9 +239,14 @@
 
 ## 当前编译配置 (Android aarch64)
 
-已启用:
-- **libplacebo** - GPU 视频渲染 (Vulkan)
+已启用 (FFmpeg vvdecSupport_8.1, NDK r29, API 31):
 - **libvvdec** - H.266/VVC 参考解码器
+- **libplacebo** - GPU 视频渲染 (Vulkan)
+- **openssl** - TLS/HTTPS 支持
+- **libfreetype** - 字体光栅化 (drawtext 滤镜)
+- **libharfbuzz** - 复杂文字整形 (drawtext 滤镜)
+- **libfribidi** - 双向文本处理 (drawtext/libass 依赖)
+- **libass** - ASS/SSA 字幕渲染
 - **Vulkan** - GPU 计算/图形 API
 - **MediaCodec** - Android 硬件编解码
 - **JNI** - Java Native Interface
@@ -348,7 +353,8 @@
 
 - **API level**: Termux 用 API 24，自定义用 API 31
 - **许可证**: Termux 启用 GPL+Version3，自定义额外启用 nonfree（不可分发）
-- **lib 数量**: Termux 启用 38 个 lib，自定义仅启用 3 个（vvdec/placebo/vulkan）
+- **lib 数量**: Termux 启用 38 个 lib，自定义启用 7 个（vvdec/placebo/openssl/freetype/harfbuzz/fribidi/libass）
 - **调试**: 自定义启用 debug，Termux 为 release 构建
-- **网络**: Termux 启用 openssl+opencl，自定义未启用
+- **网络**: 两者均启用 openssl；Termux 额外启用 opencl，自定义未启用
+- **字幕**: 自定义启用 libass + fribidi + freetype + harfbuzz（drawtext/ass 滤镜支持），Termux 也启用但依赖更多
 - **设备**: Termux 禁用 indevs/outdevs 并仅保留 lavfi，自定义未做限制
