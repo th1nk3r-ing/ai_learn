@@ -9,10 +9,10 @@ function handle_github_md_syntax() {
     # 删除标签 </font>
     find . -name "*.md" -exec sed -i 's/<\/font>//g' {} +
     # 删除标签 <font color=#009A000>
-    find . -name "*.md" -exec sed -i 's/<font color=#\([a-fA-F0-9]*\)>//g' {} +
+    find . -name "*.md" -exec sed -i 's/<font color=#[a-fA-F0-9]*>//g' {} +
     echo "已完成 font 标签删除"
     # <u>**XXX**</u>  -->  **<u>XXX</u>**
-    find . -name "*.md" -exec sed -E -i 's/<u>\*\*(.+?)\*\*<\/u>/**<u>\1<\/u>**/g'  {} +
+    find . -name "*.md" -exec sed -E -i 's/<u>\*\*([^*]+)\*\*<\/u>/**<u>\1<\/u>**/g'  {} +
     echo "已完成 下划线和高亮 标签替换"
 
     echo "-------> will delete :"
@@ -24,7 +24,6 @@ function handle_github_md_syntax() {
                 -name "*.o" \) -print -exec rm -f {} \;
 }
 
-#!/bin/bash
 if [[ $# -gt 0 && "$1" == "handleGithubMdSyntax" ]]; then
     handle_github_md_syntax
 fi
@@ -49,7 +48,7 @@ function handle_repo_doc_toc() {
             fi
         elif [[ "$file" =~ \.md$ || "$file" =~ \.pdf$ || "$file" =~ \.html$ ]]; then
             # 如果是 .md 文件，则按要求格式化输出
-            escaped_url=$(echo "$file" | sed 's/ /%20/g')
+            escaped_url=$(echo "$file" | sed 's/ /%20/g; s/#/%23/g; s/(/%28/g; s/)/%29/g')
             echo "${prefix}- [${file##*/}](${escaped_url})" >> toc.txt
         fi
     done
@@ -63,9 +62,15 @@ echo "TOC 已生成到 toc.txt"
 readme_path=$(find . -maxdepth 1 -iname "readme.md" -print -quit | sed 's|^\./||')
 echo "readmeFIle: ${readme_path}"
 
+# 如果找不到 readme.md，退出
+if [[ -z "$readme_path" ]]; then
+    echo "No readme.md found. Exiting..."
+    exit 1
+fi
+
 # 使用 grep 检查两个标记是否存在，并统计行数
-start_tag=$(grep -c '<!-- TOC start -->' ${readme_path})
-end_tag=$(grep -c '<!-- TOC end -->' ${readme_path})
+start_tag=$(grep -c '<!-- TOC start -->' "${readme_path}")
+end_tag=$(grep -c '<!-- TOC end -->' "${readme_path}")
 
 # 判断是否两个标记都存在
 if [ $start_tag -gt 0 ] && [ $end_tag -gt 0 ]; then
@@ -82,9 +87,9 @@ output_file="updated_${readme_path}"
 
 # 将 ${readme_path} 的内容复制到临时文件，直到遇到旧的 TOC 部分
 # 提取 <!-- TOC start --> 之前的部分
-sed '/<!-- TOC start -->/q' ${readme_path} > "$temp_head"
+sed '/<!-- TOC start -->/q' "${readme_path}" > "$temp_head"
 # 提取 <!-- TOC end --> 之后的部分
-sed -n '/<!-- TOC end -->/,$p' ${readme_path} | sed '1d' > "$temp_tail"
+sed -n '/<!-- TOC end -->/,$p' "${readme_path}" | sed '1d' > "$temp_tail"
 
 # 合并头部、新内容和尾部
 cat "$temp_head" > "$output_file"
@@ -96,6 +101,6 @@ cat "$temp_tail" >> "$output_file"
 
 # 清除中间文件
 rm "$temp_head" "$temp_tail" toc.txt
-mv $output_file ${readme_path}
+mv "$output_file" "${readme_path}"
 
 echo "TOC 已更新到 ${readme_path}"
