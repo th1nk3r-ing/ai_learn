@@ -24,7 +24,7 @@
 - 第二层识别短边 : 16 个神经元
 - 第三层识别图案 : 16 个神经元
 - 第四层组合图案并得到结果: 10 个神经元
-- 以上述四层神经元为例, 其总参数量为 : $13002 = {(784 * 16 + 16 * 16 + 16 * 10)}_{weights} + {(16 + 16 + 10)}_{biases}$
+- 以上述四层神经元为例, 其总参数量为 : $13002 = {(784 \times 16 + 16 \times 16 + 16 \times 10)}_{weights} + {(16 + 16 + 10)}_{biases}$
 - NOTE: 以上的功能性解释全是猜测.... 实际并不是这个原理和实现方法...
 
 ## <font color=#009A000> 0x00 神经网络 </font>
@@ -37,7 +37,7 @@
 2. 计算 :
    - 加权和的计算  : $a_0^{(1)} = \sigma(w_{0,0} \; a_0^{(0)} + w_{0,1} \, a_1^{(0)} + \cdots + w_{0,n} \, a_n^{(0)} + b_0)$
    - NOTE:
-     1. $a_0^{(1)}$ 表示第一个神经元在第一层（或时间步）的激活值, 其中的中的上标 $^{1}$ 表示神经网络的层数, 下标 $_0$ 则表示当前层神经元的 idx
+     1. $a_0^{(1)}$ 表示第一个神经元在第一层（或时间步）的激活值, 其中的中的上标 $^{(1)}$ 表示神经网络的层数, 下标 $_0$ 则表示当前层神经元的 idx
      2. $\sigma$: 代表一个激活函数，通常是一个非线性函数，如 sigmoid, ReLU 等
      3. $w_{0,1}$ 表示权重，用于连接不同神经元. $w_{0,1}$ 是连接第一层第一个神经元到第二层第二个神经元的权重，以此类推。
      4. $a_0^{(0)}, a_1^{(0)}, ..., a_n^{(0)}$ : 表示上一层（或初始输入）神经元的激活值。
@@ -71,7 +71,7 @@ $$
     b_n
 \end{bmatrix}
 \right)
-\; \\[8px] \;
+\; \\[8pt] \;
 \text{NOTE:} \;
 \sigma \left(
 \begin{bmatrix}
@@ -105,7 +105,7 @@ $$
     ```
 
 4. 激活函数 : 将加权和映射到 0~1 的区间内
-   - 线性整流函数 Rectified linear unit : $ReLU(a) = max(0, a)$
+   - 线性整流函数 Rectified linear unit : $ReLU(a) = \max(0, a)$
      - 更方便于训练
    - ~~Sigmoid 函数~~ :  $\sigma(x) = \frac{1}{1 + e^{-x}}$
      - 过去使用较多, 为了部分模仿生物学上的神经元什么时候激发, 但它很难训练, 也并没有让训练结果变得更好
@@ -224,8 +224,8 @@ GPT (Generative Pretrained Transformer)
 
 - 预设词库, `Embedding matrix` 嵌入矩阵 $W_E$ :
 - 每个词都对应一个 vec, 决定第一步中每个单词对应的向量
-  - 高纬空间向量 : GPT-3 有 50257 个 token, 每一个维度有 12288 维, `Embendding` 总参数: $6.17B \approx 12288 * 50257$
-    - $W_E = {{\mathbf{v}}_i }_{i=1}^{50257} \quad \mathbf{v}_i \in \mathbb{R}^{12288}$
+  - 高纬空间向量 : GPT-3 有 50257 个 token, 每一个维度有 12288 维, `Embendding` 总参数: $6.17B \approx 12288 \times 50257$
+    - $W_E = \{\mathbf{v}_i \}_{i=1}^{50257} \quad \mathbf{v}_i \in \mathbb{R}^{12288}$
 - E.g. : 将上述高维空间切片为三维, 用三维空间中的一个方向编码性别信息, 会更有优势.
   - 详见 : [GloVe: Global Vectors for Word Representation](https://nlp.stanford.edu/projects/glove/)
   - $E(queue) \approx E(King) + E(woman) - E(man)$
@@ -249,10 +249,10 @@ ${\color{red}{\mathbf{z}_i}} = \mathbf{e}_i + \mathbf{PE}_i$
 
 - 每次模型输出的矩阵中, 利用最后一个列向量和一个 unembedding-matrix(解嵌入矩阵) $W_U$ 映射到 50k 的 token 列表中
   - $W_U$ 在模型初始时也是随机的, 随着训练而逐渐可用
-  - ${\color{red}{W_U}} = {\mathbf{v}\_i}_{i=1}^{12288}, \quad \mathbf{v}_i \in \mathbb{R}^{50257}$
+  - ${\color{red}{W_U}} = \{\mathbf{v}_i\}_{i=1}^{12288}, \quad \mathbf{v}_i \in \mathbb{R}^{50257}$
 - 然后用 soft-max 将输出的 50k 列向量归一化, 从中得到概率最大的那个值, 即为 50k token 列表中最有可能的结果.
   - soft-max 的含义 : 把任意数列转化为合理概率分布 (归一化.)
-    - $e^{x_1} / \sum_{n=0}^{N-1} e^{x_nT}$
+    - $e^{x_1} / \sum_{n=0}^{N-1} e^{x_n T}$
   - soft-max with temperature(`Temp`) : $e^{x_1 / \color{red}{T}} / \sum_{n=0}^{N-1} e^{x_n / \color{red}{T}}$
     - $\color{red}{T}$ : 温度, 类似于热力学中的温度.
       - 当 $T$ 较大时, 会给低值赋予更多权重, 让分布更均匀一些 : 更有创造力, 更发散, 但是更容易跑偏
@@ -273,7 +273,7 @@ ${\color{red}{\mathbf{z}_i}} = \mathbf{e}_i + \mathbf{PE}_i$
   - $W_Q$ 模型参数, 训练得到
 - $W_K \; \vec{Z_i} = \vec{\color{red}{K_i}}$
   - $W_K$ 也是由模型训练得到
-- $\vec{Q_i} \; \vec{K_i} = dotNum$ : 结果的相似性 --> softmax
+- $\vec{Q_i} \; \vec{K_i} = \text{dotNum}$ : 结果的相似性 --> softmax
 
 多头注意力机制 multi head attention
 
@@ -285,6 +285,6 @@ ${\color{red}{\mathbf{z}_i}} = \mathbf{e}_i + \mathbf{PE}_i$
      - $W^Q \in \mathbb{R}^{d \times d_q}$ 用于生成 Query
      - $W^K \in \mathbb{R}^{d \times d_k}$ 用于生成 Key
      - $W^V \in \mathbb{R}^{d \times d_v}$ 用于生成 Value
-   - 对于一个 token 的嵌入向量 \( x \)，分别计算： $q = x W^Q,\quad k = x W^K,\quad v = x W^V$
+   - 对于一个 token 的嵌入向量 $x$，分别计算： $q = x W^Q,\quad k = x W^K,\quad v = x W^V$
    - **Query 和 Key：** 这两个向量用于计算不同 token 之间的相似度或相关性。具体来说，在自注意力机制中，一个 token 的 Query 向量会与其他所有 token 的 Key 向量进行点积运算，然后经过缩放和 softmax 得到注意力权重。这样可以衡量当前 token 与其他 token 在语义上的关联程度。
    - **Value：** Value 向量包含了 token 本身的实际信息。在后续的步骤中，计算得到的注意力权重将用于对各个 token 的 Value 向量进行加权求和，从而生成一个新的、融合了全局上下文信息的表示。
